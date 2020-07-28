@@ -3,7 +3,7 @@ import sprites from '@dicebear/avatars-avataaars-sprites';
 import express from 'express';
 import fs from 'fs';
 import jdenticon from 'jdenticon';
-import stream from 'stream';
+import path from 'path';
 import { AVATAR_CONFIG, JDENTICON_CONFIG } from '../constants/config';
 
 var router = express.Router();
@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
 router.get('/avatar/:address', function (req, res, next) {
   const address = req.params.address;
 
-  const fileName = `./public/avatars/${address}.svg`;
+  const fileName = `./public/avatars/${address}`;
 
   if (address.includes('.chain')) {
     // serve avataars here
@@ -31,19 +31,7 @@ router.get('/avatar/:address', function (req, res, next) {
     fs.writeFileSync(fileName, svg);
   }
   res.setHeader('Content-Type', 'image/svg+xml');
-  const r = fs.createReadStream(fileName); // or any other way to get a readable stream
-  const ps = new stream.PassThrough(); // <---- this makes a trick with stream error handling
-  stream.pipeline(
-    r,
-    ps, // <---- this makes a trick with stream error handling
-    (err) => {
-      if (err) {
-        console.log(err); // No such file or any other kind of error
-        return res.sendStatus(400);
-      }
-    },
-  );
-  ps.pipe(res); // <---- this makes a trick with stream error handling
+  res.sendFile(path.resolve(__dirname, `../../public/avatars/${address}`));
 });
 
 module.exports = router;
