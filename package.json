@@ -1,0 +1,17 @@
+{
+  "name": "superhero-avatars",
+  "version": "1.0.0",
+  "author": "Milen Radkov <milenradkov@me.com>",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "jdenticon": "^2.2.0",
+    "morgan": "~1.9.1",
+    "stream": "0.0.2"
+  }
+}
