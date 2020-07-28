@@ -11,20 +11,16 @@ jdenticon.config = JDENTICON_CONFIG;
 
 /* GET user avatar - jdenticon or avataar . */
 router.get('/:address', function (req, res, next) {
-  const address = req.params.address;
-
+  const { address } = req.params;
   const fileName = `./public/avatars/${address}`;
 
-  if (address.includes('.chain')) {
-    // serve avataars here
-    const avatars = new Avatars(sprites, AVATAR_CONFIG);
-    const avatar = avatars.create(address);
-    fs.writeFileSync(fileName, avatar);
-  } else {
-    // serve jdenticon
-    const svg = jdenticon.toSvg(address, 300);
-    fs.writeFileSync(fileName, svg);
-  }
+  fs.writeFileSync(
+    fileName,
+    address.includes('.chain')
+      ? new Avatars(sprites, AVATAR_CONFIG).create(address)
+      : jdenticon.toSvg(address, 300),
+  );
+
   res.setHeader('Content-Type', 'image/svg+xml');
   res.sendFile(path.resolve(__dirname, `../../public/avatars/${address}`));
 });
