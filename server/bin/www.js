@@ -3,10 +3,10 @@
 /**
  * Module dependencies.
  */
-
-var app = require('../app');
-var debug = require('debug')('superhero-avatars:server');
-var http = require('http');
+import debugLib from 'debug';
+import http from 'http';
+import app from '../app';
+const debug = debugLib('superhero-avatars:server');
 
 /**
  * Get port from environment and store in Express.
@@ -67,11 +67,9 @@ function onError(error) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
-      break;
     default:
       throw error;
   }

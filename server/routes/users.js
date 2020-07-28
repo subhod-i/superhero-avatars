@@ -1,21 +1,13 @@
-var express = require('express');
-var router = express.Router();
-const jdenticon = require('jdenticon');
-const fs = require('fs');
-const stream = require('stream');
+import Avatars from '@dicebear/avatars';
+import sprites from '@dicebear/avatars-avataaars-sprites';
+import express from 'express';
+import fs from 'fs';
+import jdenticon from 'jdenticon';
+import stream from 'stream';
+import { AVATAR_CONFIG, JDENTICON_CONFIG } from '../constants/config';
 
-// https://jdenticon.com/icon-designer.html?config=12121bff014a646428643264
-jdenticon.config = {
-  lightness: {
-    color: [0.4, 1.0],
-    grayscale: [0.5, 1.0],
-  },
-  saturation: {
-    color: 1.0,
-    grayscale: 1.0,
-  },
-  backColor: '#12121bff',
-};
+var router = express.Router();
+jdenticon.config = JDENTICON_CONFIG;
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -25,10 +17,20 @@ router.get('/', function (req, res, next) {
 /* GET user avatar - jdenticon . */
 router.get('/avatar/:address', function (req, res, next) {
   const address = req.params.address;
-  const png = jdenticon.toPng(address, 100);
-  const fileName = `./public/avatars/${address}.png`;
-  fs.writeFileSync(fileName, png);
 
+  const fileName = `./public/avatars/${address}.svg`;
+
+  if (address.includes('.chain')) {
+    // serve avataars here
+    const avatars = new Avatars(sprites, AVATAR_CONFIG);
+    const avatar = avatars.create(address);
+    fs.writeFileSync(fileName, avatar);
+  } else {
+    // serve jdenticon
+    const svg = jdenticon.toSvg(address, 100);
+    fs.writeFileSync(fileName, svg);
+  }
+  res.setHeader('Content-Type', 'image/svg+xml');
   const r = fs.createReadStream(fileName); // or any other way to get a readable stream
   const ps = new stream.PassThrough(); // <---- this makes a trick with stream error handling
   stream.pipeline(
