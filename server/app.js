@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import express from 'express';
 import logger from 'morgan';
 import path from 'path';
+import router from './routes/users';
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 
@@ -17,9 +18,6 @@ if (typeof atob === 'undefined') {
   };
 }
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 var app = express();
 
 app.use(logger('dev'));
@@ -28,7 +26,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', router);
+
+//The 404 Route (ALWAYS Keep this as the last route)
+app.get('*', function(req, res){
+  res.status(404).send('What??? Try again using /{address | .chainName}');
+});
 
 export default app;

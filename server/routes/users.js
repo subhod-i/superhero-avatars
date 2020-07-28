@@ -9,13 +9,8 @@ import { AVATAR_CONFIG, JDENTICON_CONFIG } from '../constants/config';
 var router = express.Router();
 jdenticon.config = JDENTICON_CONFIG;
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('Nothing to see here');
-});
-
 /* GET user avatar - jdenticon . */
-router.get('/avatar/:address', function (req, res, next) {
+router.get('/:address', function (req, res, next) {
   const address = req.params.address;
 
   const fileName = `./public/avatars/${address}`;
@@ -34,4 +29,4 @@ router.get('/avatar/:address', function (req, res, next) {
   res.sendFile(path.resolve(__dirname, `../../public/avatars/${address}`));
 });
 
-module.exports = router;
+export default router;
