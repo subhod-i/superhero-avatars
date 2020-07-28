@@ -7,4 +7,4 @@ COPY . .
 RUN npm run build
 
 EXPOSE 3000
-CMD [ "npm", "run", "express:run" ]
+CMD [ "npm", "start" ]
