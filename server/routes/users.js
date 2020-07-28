@@ -9,7 +9,7 @@ import { AVATAR_CONFIG, JDENTICON_CONFIG } from '../constants/config';
 var router = express.Router();
 jdenticon.config = JDENTICON_CONFIG;
 
-/* GET user avatar - jdenticon . */
+/* GET user avatar - jdenticon or avataar . */
 router.get('/:address', function (req, res, next) {
   const address = req.params.address;
 
@@ -22,7 +22,7 @@ router.get('/:address', function (req, res, next) {
     fs.writeFileSync(fileName, avatar);
   } else {
     // serve jdenticon
-    const svg = jdenticon.toSvg(address, 100);
+    const svg = jdenticon.toSvg(address, 300);
     fs.writeFileSync(fileName, svg);
   }
   res.setHeader('Content-Type', 'image/svg+xml');
