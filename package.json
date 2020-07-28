@@ -7,6 +7,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@dicebear/avatars": "^4.2.5",
+    "@dicebear/avatars-avataaars-sprites": "^4.2.5",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
