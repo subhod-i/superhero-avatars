@@ -10,9 +10,9 @@ var router = express.Router();
 jdenticon.config = JDENTICON_CONFIG;
 
 /* GET user avatar - jdenticon or avataar . */
-router.get('/:address', function (req, res, next) {
-  const { address } = req.params;
-  const fileName = `./public/avatars/${address}`;
+router.get('/:address?', function (req, res, next) {
+  const address = req.params.address || '';
+  const fileName = path.resolve(__dirname, `../../public/avatars/${address || 'anonymous'}`);
 
   fs.writeFileSync(
     fileName,
@@ -22,7 +22,7 @@ router.get('/:address', function (req, res, next) {
   );
 
   res.setHeader('Content-Type', 'image/svg+xml');
-  res.sendFile(path.resolve(__dirname, `../../public/avatars/${address}`));
+  res.sendFile(fileName);
 });
 
 export default router;
