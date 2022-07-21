@@ -12,12 +12,12 @@ export const AVATAR_CONFIG = {
 
 export const JDENTICON_CONFIG = {
   lightness: {
-    color: [0.4, 1.0],
-    grayscale: [0.5, 1.0],
+    color: 0.57,
+    grayscale: [0.47, 0.58]
   },
   saturation: {
-    color: 1.0,
-    grayscale: 1.0,
+    color: 1.00,
+    grayscale: 0.42
   },
   backColor: '#12121bff',
 };
